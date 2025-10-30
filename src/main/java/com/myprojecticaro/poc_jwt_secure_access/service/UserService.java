@@ -1,4 +1,3 @@
-
 package com.myprojecticaro.poc_jwt_secure_access.service;
 
 import org.springframework.security.core.userdetails.User;

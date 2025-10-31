@@ -90,3 +90,23 @@ Using Gradle:
 ````
 
 The app will start at:
+
+````
+http://localhost:8080
+````
+
+## 🔐 Authentication Flow
+
+1. The client sends a POST request to /auth/login with username and password.
+
+2. The server validates the credentials using UserService.
+
+3. If valid, the server returns a JWT Token.
+
+4. The client includes the token in the header for future requests:
+
+````
+Authorization: Bearer <your_token>
+````
+
+6. The filter *JwtAuthenticationFilter* validates the token for each request.

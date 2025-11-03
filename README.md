@@ -72,7 +72,7 @@ SecurityConfig	Configures Spring Security, filters, and endpoint protection.
 
 ### 1️⃣ Clone the repository
 
-git clone https://github.com/yourusername/poc-jwt-secure-access.git
+git clone https://github.com/IcaroCaetano/poc-jwt-secure-access.git
 cd poc-jwt-secure-access
 
 ### 2️⃣ Build and run the application

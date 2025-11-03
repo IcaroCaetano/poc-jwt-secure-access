@@ -11,8 +11,36 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * Main Spring Security configuration.
- * Defines authentication, authorization, and filter chain.
+ * <p>
+ * Main Spring Security configuration class responsible for defining authentication,
+ * authorization, and security filter chain rules.
+ * </p>
+ *
+ * <p>
+ * This configuration ensures that the application uses stateless JWT-based authentication
+ * and does not rely on traditional session management. It registers the
+ * {@link JwtAuthenticationFilter} to intercept and validate JWT tokens for all secured endpoints.
+ * </p>
+ *
+ * <p><b>Key Responsibilities:</b></p>
+ * <ul>
+ *     <li>Disable CSRF protection since JWT is used for stateless authentication.</li>
+ *     <li>Allow unauthenticated access to <code>/auth/**</code> endpoints (for login/token generation).</li>
+ *     <li>Require authentication for all other requests.</li>
+ *     <li>Set the session management policy to {@link SessionCreationPolicy#STATELESS}.</li>
+ *     <li>Add the custom {@link JwtAuthenticationFilter} before Spring’s default {@link UsernamePasswordAuthenticationFilter}.</li>
+ * </ul>
+ *
+ * <p><b>Example Behavior:</b></p>
+ * <ul>
+ *     <li><code>POST /auth/login</code> → Public (used to obtain JWT)</li>
+ *     <li><code>GET /api/secure-data</code> → Requires a valid JWT in the Authorization header</li>
+ * </ul>
+ *
+ * @see JwtAuthenticationFilter
+ * @see UserService
+ * @see AuthenticationManager
+ * @see HttpSecurity
  */
 @Configuration
 public class SecurityConfig {
@@ -25,6 +53,12 @@ public class SecurityConfig {
         this.userService = userService;
     }
 
+      /**
+     * Constructs a new {@code SecurityConfig} instance with the required dependencies.
+     *
+     * @param jwtAuthFilter The JWT authentication filter that validates tokens.
+     * @param userService   The service used to load user details for authentication.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -41,6 +75,14 @@ public class SecurityConfig {
         return http.build();
     }
 
+     /**
+     * Configures the Spring Security filter chain.
+     * Defines which endpoints are secured, session policies, and filter order.
+     *
+     * @param http The {@link HttpSecurity} instance used to configure security behavior.
+     * @return A configured {@link SecurityFilterChain} instance.
+     * @throws Exception If any configuration error occurs.
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();

@@ -101,11 +101,24 @@ public class JwtUtil {
                 .getBody();
         return claimsResolver.apply(claims);
     }
-
+    
+    /**
+     * Validates a JWT token by checking the username and expiration date.
+     *
+     * @param token The JWT token to validate.
+     * @param username The username expected to be contained in the token.
+     * @return {@code true} if the token is valid; {@code false} otherwise.
+     */
     public boolean isTokenValid(String token, String username) {
         return username.equals(extractUsername(token)) && !isTokenExpired(token);
     }
 
+     /**
+     * Checks if the given JWT token is expired.
+     *
+     * @param token The JWT token to check.
+     * @return {@code true} if the token is expired; {@code false} otherwise.
+     */
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
